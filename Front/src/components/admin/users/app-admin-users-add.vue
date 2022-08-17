@@ -6,7 +6,10 @@
   >
     <template v-slot:activator="{ on, attrs }">
       <v-btn v-bind="attrs" v-on="on" color="teal" class="ma-2 white--text" fab>
-        <v-icon dark> mdi-plus </v-icon>
+        <v-icon v-if="btn=='admin'" dark> mdi-plus </v-icon>
+        <v-btn v-else color="teal" dark 
+                  >Iniciar sesión</v-btn
+                >
       </v-btn>
     </template>
     <v-form ref="form" v-model="form.valid" lazy-validation @submit="save">
@@ -79,6 +82,17 @@
 </template>
 <script>
 export default {
+
+  props : {
+    btn : {
+      type : String,
+      default : 'admin'
+    },
+    role : {
+      type : String, 
+      default : 'ROL-0002'
+    }
+  },
   data() {
     return {
       emailRules: [

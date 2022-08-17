@@ -31,6 +31,7 @@
               </v-card-text>
               <v-card-actions>
                 <v-spacer></v-spacer>
+                <app-admin-Users-add btn="client" role="ROL-002" @added="userAdded"> </app-admin-Users-add>
                 <v-btn @click="login" color="teal" dark to="/"
                   >Iniciar sesión</v-btn
                 >
@@ -39,13 +40,26 @@
           </v-flex>
         </v-layout>
       </v-container>
+      
     </v-main>
   </div>
 </template>
 
 <script>
+
+import appAdminUsersAdd from '../admin/users/app-admin-users-add.vue'
 export default {
   name: "app-ogin",
+
+  components : {appAdminUsersAdd},
+
+  createAccount(){
+
+  },
+
+  userAdded(){
+
+  },
   mounted() {
     const aux = sessionStorage.getItem("profile");
     if (aux !== null) {
