@@ -126,7 +126,7 @@ export default {
         this.$swal.fire({
           title: "Ha ocurrido un error",
           text: "Ha ocurrido un error al recuperar los aerolíneas",
-          icon: "error",
+          icon: "success",
         });
       } finally {
         this.loading = false;

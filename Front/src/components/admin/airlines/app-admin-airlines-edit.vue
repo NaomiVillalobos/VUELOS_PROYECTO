@@ -68,7 +68,7 @@ export default {
           description: "",
           code: "",
           country: null,
-          sequence: 0,
+          sequence: 1,
         },
       },
       countries: [],
