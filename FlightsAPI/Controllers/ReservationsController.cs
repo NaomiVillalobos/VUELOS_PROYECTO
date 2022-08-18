@@ -89,6 +89,7 @@ namespace FlightsAPI.Controllers
           {
               return Problem("Entity set 'FlightsContext.Reservations'  is null.");
           }
+            reservation.cifrar();
             _context.Reservations.Add(reservation);
             try
             {

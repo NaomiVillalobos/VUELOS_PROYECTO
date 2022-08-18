@@ -52,7 +52,8 @@
             item-text="description"
             item-value="code"
             label="Seleccione una tarjeta"
-            required
+            :required="options.buy === 1"
+
           >
           </v-select>
         </v-card-text>
@@ -79,6 +80,7 @@
 </template>
 <script>
 import { mixinBuyTicket } from "./mixin-buy-ticket";
+import { mixinResTicket } from "./mixin-res-ticket";
 export default {
   props: {
     item: {
@@ -87,7 +89,7 @@ export default {
     },
   },
 
-  mixins: [mixinBuyTicket],
+  mixins: [mixinBuyTicket, mixinResTicket],
 
   mounted() {
     this.getCards();
@@ -192,6 +194,31 @@ export default {
             this.$swal.fire({
               title: "Ha ocurrido un error",
               text: "No se ha logrado comprar los tiquetes",
+              icon: "error",
+            });
+          }
+        } else {
+          let res = await this.restickets(
+            this.options.card,
+            this.options.total,
+            this.item
+          );
+          if (res == this.options.total) {
+            this.$swal.fire({
+              title: "Acción realizada con éxito",
+              text: "Todos tus tiquetes han sido reservados",
+              icon: "success",
+            });
+          } else if (res == 0) {
+            this.$swal.fire({
+              title: "Ha ocurrido un error",
+              text: `solo se han reservado ${res} de ${this.options.total} tiquetes`,
+              icon: "error",
+            });
+          } else {
+            this.$swal.fire({
+              title: "Ha ocurrido un error",
+              text: "No se ha logrado reservar los tiquetes",
               icon: "error",
             });
           }
