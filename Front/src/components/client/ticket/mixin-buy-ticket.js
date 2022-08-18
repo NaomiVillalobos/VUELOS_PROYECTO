@@ -28,6 +28,7 @@ export const mixinBuyTicket = {
                 code : new Date().getTime().toString(),
                 card,
                 ticket:ticket.code,
+                userName:sessionStorage.getItem('user')
             }
             var myHeaders = new Headers();
             myHeaders.append("Content-Type", "application/json");
