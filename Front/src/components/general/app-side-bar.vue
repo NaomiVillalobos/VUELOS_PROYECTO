@@ -141,12 +141,18 @@ export default {
       } else {
         return [
           {
+            icon: "mdi-credit-card",
+            label: "Gestión de tarjetas",
+            path: "/client/cards",
+            selected: 1,
+          },
+          {
             icon: "mdi-form-textbox-password",
             label: "Cambio de contraseña",
             path: "/admin/change-password",
             selected: 2,
           },
-                    {
+          {
             icon: "mdi-logout",
             label: "Cerrar sesión",
             path: "/",
