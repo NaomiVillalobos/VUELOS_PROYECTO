@@ -21,5 +21,19 @@ namespace FlightsAPI.Models
         public virtual Sequence? SequneceNavigation { get; set; }
         public virtual ICollection<Purchase> Purchases { get; set; }
         public virtual ICollection<Reservation> Reservations { get; set; }
+
+        public void cifrar()
+        {
+            this.Code = Cifrado.Cifrar(this.Code);
+            this.Flight = Cifrado.Cifrar(this.Flight);
+
+
+        }
+        public void decifrar()
+        {
+            this.Code = Cifrado.Decifrar(this.Code);
+            this.Flight = Cifrado.Decifrar(this.Flight);
+
+        }
     }
 }

@@ -15,5 +15,21 @@ namespace FlightsAPI.Models
         public virtual Card? CardNavigation { get; set; }
         public virtual Sequence? SequenceNavigation { get; set; }
         public virtual Ticket? TicketNavigation { get; set; }
+
+        public void cifrar()
+        {
+            this.Code = Cifrado.Cifrar(this.Code);
+            this.Card = Cifrado.Cifrar(this.Card);
+            this.Ticket = Cifrado.Cifrar(this.Ticket);
+
+
+        }
+        public void decifrar()
+        {
+            this.Code = Cifrado.Decifrar(this.Code);
+            this.Card = Cifrado.Decifrar(this.Card);
+            this.Ticket = Cifrado.Decifrar(this.Ticket);
+
+        }
     }
 }

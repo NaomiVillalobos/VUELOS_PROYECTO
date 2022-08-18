@@ -58,7 +58,7 @@ namespace FlightsAPI.Controllers
             {
                 return BadRequest();
             }
-
+            ticket.cifrar();
             _context.Entry(ticket).State = EntityState.Modified;
 
             try
@@ -89,6 +89,7 @@ namespace FlightsAPI.Controllers
           {
               return Problem("Entity set 'FlightsContext.Tickets'  is null.");
           }
+            ticket.cifrar();
             _context.Tickets.Add(ticket);
             try
             {

@@ -3,7 +3,7 @@
     <v-row dense>
       <v-col cols="12">
         <v-card class="mx-auto" color="teal" dark>
-          <v-card-title>Gestión de aerolíneas</v-card-title>
+          <v-card-title>Buscador</v-card-title>
         </v-card>
         <v-card-text max-width="600">
           <v-data-table
@@ -19,98 +19,72 @@
                 :code="item.origin"
               ></appAdminCountriesShow>
             </template>
-                        <template v-slot:item.to="{ item }">
+            <template v-slot:item.to="{ item }">
               {{ item.to }}
-              <appAdminCountriesShow
-                :code="item.to"
-              ></appAdminCountriesShow>
+              <appAdminCountriesShow :code="item.to"></appAdminCountriesShow>
             </template>
+            <template v-slot:item.cost="{ item }">
+              {{ item.cost }} USD</template
+            >
+            <template v-slot:item.dep="{ item }">
+              {{ item.dateDep.split("T")[0] }}@{{ item.timeDep }}</template
+            >
+            <template v-slot:item.arrive="{ item }">
+              {{ item.dateArrive.split("T")[0] }}@{{
+                item.timeArrive
+              }}</template
+            >
             <template v-slot:item.actions="{ item }">
-              <app-admin-Airlines-show
-                :code="item.code"
-              ></app-admin-Airlines-show>
-              <app-admin-Airlines-edit
-                :airline="item"
-                @changed="getFlights"
-              ></app-admin-Airlines-edit>
-              <v-icon small @click="deleteItem(item)" color="red">
-                mdi-delete
-              </v-icon>
+
+              <app-client-ticket-buy :item="item"></app-client-ticket-buy>
             </template>
           </v-data-table>
         </v-card-text>
         <v-card-actions class="pt-0">
-          <app-admin-Airlines-add @added="getFlights">
-          </app-admin-Airlines-add>
-          <app-admin-countries-filter
-            selected="currentCountry"
-            @change="changecountry"
-          ></app-admin-countries-filter>
+          <app-client-ticket-filter @change="change"></app-client-ticket-filter>
         </v-card-actions>
       </v-col>
     </v-row>
   </v-container>
 </template>
 <script>
+import appClientTicketBuy from './app-client-ticket-buy.vue';
 import appAdminCountriesShow from "./../../admin/countries/app-admin-countries-show.vue";
+import appClientTicketFilter from "./app-client-ticket-filter.vue";
 export default {
   components: {
-    appAdminCountriesShow
+    appAdminCountriesShow,
+    appClientTicketFilter,
+    appClientTicketBuy
   },
   data() {
     return {
       currentCountry: "*ALL",
+      current : null,
       loading: false,
       Airlines: [],
       dialog: false,
+      filter: {
+        origin: "*ALL",
+        to: "*ALL",
+        date: "",
+      },
     };
   },
   mounted() {
     this.getFlights();
   },
   methods: {
+    change(filter){
+        this.filter = filter;
+    },
     async editItem(item) {
       console.log(item);
     },
     changecountry(country) {
       this.currentCountry = country;
     },
-    deleteItem(item) {
-      this.$swal
-        .fire({
-          title: "¿Esta seguro de que desea eliminar la aerolínea?",
-          text: `la aerolínea ${item.description} será eliminada del sistema`,
-          icon: "warning",
-          showCancelButton: true,
-          confirmButtonColor: "#3085d6",
-          cancelButtonColor: "#d33",
-          confirmButtonText: "Confirmar!",
-          cancelButtonText: "Cancelar",
-        })
-        .then(async (result) => {
-          if (result.isConfirmed) {
-            const response = await fetch(`/api/Airlines/${item.code}`, {
-              method: "DELETE",
-              redirect: "follow",
-            });
-            if (response.status >= 200 && response.status <= 299) {
-              this.Log.add('Airline','D',item.code,item);
-              this.$swal.fire(
-                "Aerolínea eliminada!",
-                "La aerolínea ha sido borrado del sistema",
-                "success"
-              );
-              this.getFlights();
-            } else {
-              this.$swal.fire(
-                "Aerolínea no eliminada!",
-                "Ha ocurrido un error al eliminar al Aerolínea",
-                "error"
-              );
-            }
-          }
-        });
-    },
+
     async getFlights() {
       this.loading = true;
       try {
@@ -133,11 +107,21 @@ export default {
   },
   computed: {
     body() {
-      return this.Airlines.filter(
-        (airline) =>
-          this.currentCountry === "*ALL" ||
-          airline.country === this.currentCountry
-      );
+      return this.Airlines.filter((airline) => {
+        if(airline.status === '2'){
+            return false;
+        }
+        if(this.filter.origin !== '*ALL' && airline.origin !== this.filter.origin){
+            return false;
+        }
+        if(this.filter.to !== '*ALL' && airline.to !== this.filter.to){
+            return false;
+        }
+        if(this.filter.date !== '' && airline.dateDep.split('T')[0] !== this.filter.date){
+            return false;
+        }
+        return true;
+      });
     },
 
     headers() {
@@ -154,18 +138,19 @@ export default {
           text: "Salida",
           value: "dep",
         },
-                {
+        {
           text: "Llegada",
           value: "arrive",
         },
-         {
+        {
           text: "Costo",
           value: "cost",
         },
-        
+
         {
           text: "Acciones",
           value: "actions",
+          align : 'center',
           sortable: false,
         },
       ];

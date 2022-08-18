@@ -28,7 +28,12 @@ namespace FlightsAPI.Controllers
           {
               return NotFound();
           }
-            return await _context.Purchases.ToListAsync();
+            var lista = await _context.Purchases.ToListAsync();
+            foreach (var f in lista)
+            {
+                f.decifrar();
+            }
+            return lista;
         }
 
         // GET: api/Purchases/5
@@ -45,7 +50,7 @@ namespace FlightsAPI.Controllers
             {
                 return NotFound();
             }
-
+            purchase.decifrar();
             return purchase;
         }
 
@@ -89,6 +94,7 @@ namespace FlightsAPI.Controllers
           {
               return Problem("Entity set 'FlightsContext.Purchases'  is null.");
           }
+            purchase.cifrar();
             _context.Purchases.Add(purchase);
             try
             {

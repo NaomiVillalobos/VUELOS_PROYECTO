@@ -92,6 +92,7 @@ export default {
           redirect: "follow",
         });
         this.Card = await response.json();
+        this.Card = this.Card.filter(card=>card.userName === sessionStorage.getItem('user') )
         this.Card.sort();
       } catch (e) {
         this.$swal.fire({
@@ -109,7 +110,7 @@ export default {
       return this.Card.map(
         (Card) =>({
           franchise : Card.franchise === 'VIS' ? 'Visa' : Card.franchise === 'MSC' ? 'Master Card' : 'American Express',
-          pan : Card.pan.substring(0,4) + ' **** **** ****',
+          pan :   '**** **** **** '+Card.pan.substring(12),
           card : Card.pan,
         })
       );
