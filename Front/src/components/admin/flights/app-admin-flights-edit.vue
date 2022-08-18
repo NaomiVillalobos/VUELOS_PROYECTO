@@ -5,13 +5,20 @@
     v-model="form.dialog"
   >
     <template v-slot:activator="{ on, attrs }">
-      <v-btn v-bind="attrs" v-on="on" color="teal" class="ma-2 white--text" fab>
-        <v-icon dark> mdi-plus </v-icon>
+            <v-btn
+        v-bind="attrs"
+        v-on="on"
+        color="amber"
+        small
+        icon
+        @click="form.inputs=item"
+      >
+        <v-icon dark> mdi-pencil </v-icon>
       </v-btn>
     </template>
     <v-form ref="form" v-model="form.valid" lazy-validation @submit="save">
       <v-card>
-        <v-toolbar color="teal" dark>Agregar un vuelo </v-toolbar>
+        <v-toolbar color="teal" dark>Modificar un vuelo </v-toolbar>
         <v-card-text>
           <v-select
             v-model="form.inputs.origin"
@@ -113,6 +120,14 @@
 </template>
 <script>
 export default {
+
+  props : {
+    item : {
+      type : Object,
+      required : true
+    }
+  },
+
   data() {
     return {
       form: {
@@ -161,23 +176,22 @@ export default {
       if (!this.form.valid) {
         return;
       }
-      this.form.inputs.code = new Date().getTime().toString();
       var myHeaders = new Headers();
       myHeaders.append("Content-Type", "application/json");
       var raw = JSON.stringify(this.form.inputs);
       var requestOptions = {
-        method: "POST",
+        method: "PUT",
         headers: myHeaders,
         body: raw,
         redirect: "follow",
       };
       try {
-        const res = await fetch("/api/Flights", requestOptions);
+        const res = await fetch("/api/Flights/"+this.form.inputs.code, requestOptions);
         if (res.status >= 200 && res.status <= 299) {
-          this.Log.add("Flights", "I", this.form.inputs.code, this.form.inputs);
+          this.Log.add("Flights", "U", this.form.inputs.code, this.form.inputs);
           this.$swal.fire({
             title: "Acción realizada con éxito",
-            text: "vuelo creado exitosamente",
+            text: "vuelo modificado exitosamente",
             icon: "success",
           });
           this.$refs.form.reset();

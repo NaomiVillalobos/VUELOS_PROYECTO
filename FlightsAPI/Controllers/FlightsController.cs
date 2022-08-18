@@ -60,6 +60,8 @@ namespace FlightsAPI.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutFlight(string id, Flight flight)
         {
+            id = Cifrado.Cifrar(id);
+            flight.cifrar();
             if (id != flight.Code)
             {
                 return BadRequest();

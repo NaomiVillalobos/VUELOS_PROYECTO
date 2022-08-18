@@ -35,6 +35,7 @@
               }}</template
             >
             <template v-slot:item.actions="{ item }">
+              <appAdminFlightsEdit :item="item" @changed="getFlights"></appAdminFlightsEdit>
               <v-icon small @click="deleteItem(item)" color="red">
                 mdi-delete
               </v-icon>
@@ -50,10 +51,12 @@
 <script>
 import appAdminCountriesShow from "./../countries/app-admin-countries-show.vue";
 import appAdminFlightsAdd from "./app-admin-flights-add.vue";
+import appAdminFlightsEdit from "./app-admin-flights-edit.vue";
 export default {
   components: {
     appAdminCountriesShow,
-    appAdminFlightsAdd
+    appAdminFlightsAdd,
+    appAdminFlightsEdit
   },
   data() {
     return {
