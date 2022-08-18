@@ -20,6 +20,11 @@ const routes = [{
     component: () => import('./../components/admin/password/app-admin-change-password.vue')
   },
   {
+    path: '/client/change-password',
+    name: 'app-admin-change-password',
+    component: () => import('./../components/admin/password/app-admin-change-password.vue')
+  },
+  {
     path: '/admin/roles',
     name: 'app-admin-roles-list',
     component: () => import('./../components/admin/roles/app-admin-roles-list.vue')

@@ -4,7 +4,7 @@ export default class Log{
         var myHeaders = new Headers();
         myHeaders.append("Content-Type", "application/json");
         const data = {
-            userName:sessionStorage.getItem('user'),
+            userName:sessionStorage.getItem('user')||'nan',
             recordCode,
             action,
             description,

@@ -139,7 +139,20 @@ export default {
           },
         ];
       } else {
-        return [];
+        return [
+          {
+            icon: "mdi-form-textbox-password",
+            label: "Cambio de contraseña",
+            path: "/admin/change-password",
+            selected: 2,
+          },
+                    {
+            icon: "mdi-logout",
+            label: "Cerrar sesión",
+            path: "/",
+            selected: 999,
+          },
+        ];
       }
     },
   },

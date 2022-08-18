@@ -5,12 +5,13 @@
     v-model="form.dialog"
   >
     <template v-slot:activator="{ on, attrs }">
-      <v-btn v-bind="attrs" v-on="on" color="teal" class="ma-2 white--text" fab>
-        <v-icon v-if="btn=='admin'" dark> mdi-plus </v-icon>
-        <v-btn v-else color="teal" dark 
-                  >Iniciar sesión</v-btn
-                >
+      <v-btn v-if="btn=='admin'" v-bind="attrs" v-on="on" color="teal" class="ma-2 white--text" fab>
+        <v-icon  dark> mdi-plus </v-icon>
+        
       </v-btn>
+      <v-btn v-else color="teal" dark  v-bind="attrs" v-on="on"
+                  >Crear cuenta cliente</v-btn
+                >
     </template>
     <v-form ref="form" v-model="form.valid" lazy-validation @submit="save">
       <v-card>
@@ -24,7 +25,7 @@
             required
           >
           </v-text-field>
-          <v-select
+          <v-select v-if="btn=='admin'"
             v-model="form.inputs.role"
             :items="roles"
             item-text="description"
@@ -90,7 +91,7 @@ export default {
     },
     role : {
       type : String, 
-      default : 'ROL-0002'
+      default : 'ROL-000002'
     }
   },
   data() {
@@ -131,6 +132,9 @@ export default {
     },
 
     async saveData() {
+      if(this.btn !== 'admin'){
+        this.form.inputs.role = 'ROL-000002'
+      }
       var myHeaders = new Headers();
       myHeaders.append("Content-Type", "application/json");
       //this.form.inputs.role = this.form.inputs.RoleNavigation.id;

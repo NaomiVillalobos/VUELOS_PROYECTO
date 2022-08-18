@@ -31,7 +31,12 @@
               </v-card-text>
               <v-card-actions>
                 <v-spacer></v-spacer>
-                <app-admin-Users-add btn="client" role="ROL-002" @added="userAdded"> </app-admin-Users-add>
+                <app-admin-Users-add
+                  btn="client"
+                  role="ROL-000002"
+                  @added="userAdded"
+                >
+                </app-admin-Users-add>
                 <v-btn @click="login" color="teal" dark to="/"
                   >Iniciar sesión</v-btn
                 >
@@ -40,26 +45,19 @@
           </v-flex>
         </v-layout>
       </v-container>
-      
     </v-main>
   </div>
 </template>
 
 <script>
-
-import appAdminUsersAdd from '../admin/users/app-admin-users-add.vue'
+import appAdminUsersAdd from "../admin/users/app-admin-users-add.vue";
 export default {
   name: "app-ogin",
 
-  components : {appAdminUsersAdd},
+  components: { appAdminUsersAdd },
 
-  createAccount(){
+  createAccount() {},
 
-  },
-
-  userAdded(){
-
-  },
   mounted() {
     const aux = sessionStorage.getItem("profile");
     if (aux !== null) {
@@ -80,6 +78,13 @@ export default {
   },
 
   methods: {
+    userAdded() {
+      this.$swal.fire({
+        title: "Usuario creado con éxito",
+        text: "Inicie sesión",
+        icon: "success",
+      });
+    },
     async login(event) {
       event.preventDefault();
       event.stopPropagation();
@@ -94,17 +99,18 @@ export default {
           text: "Por favor, verifique sus credenciales",
           icon: "error",
         });
-      }else{
+      } else {
         sessionStorage.setItem("user", user.userName);
-        this.redirect(user.role)
+        this.redirect(user.role);
       }
-      
     },
 
     redirect(profile = "ROL-000001") {
-      sessionStorage.setItem("profile", "ROL-000001");
+      sessionStorage.setItem("profile", profile);
       if (profile === "ROL-000001") {
         this.goAdmin();
+      }else{
+        this.goClient();
       }
     },
     goAdmin() {
@@ -113,6 +119,14 @@ export default {
       });
       this.$emit("loged", "ROL-000001");
     },
+
+    goClient() {
+      this.$router.push({
+        path: "/client/change-password",
+      });
+      this.$emit("loged", "ROL-000002");
+    },
+
   },
 };
 </script>
