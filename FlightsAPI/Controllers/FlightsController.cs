@@ -44,13 +44,14 @@ namespace FlightsAPI.Controllers
           {
               return NotFound();
           }
+            id = Cifrado.Cifrar(id);
             var flight = await _context.Flights.FindAsync(id);
 
             if (flight == null)
             {
                 return NotFound();
             }
-
+            flight.decifrar();
             return flight;
         }
 

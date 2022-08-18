@@ -35,6 +35,11 @@ const routes = [{
     component: () => import('./../components/client/ticket/app-client-ticket-search.vue')
   },
   {
+    path: '/client/historical',
+    name: 'app-client-hisotrical',
+    component: () => import('./../components/client/historical/app-client-historical.vue')
+  },
+  {
     path: '/admin/roles',
     name: 'app-admin-roles-list',
     component: () => import('./../components/admin/roles/app-admin-roles-list.vue')

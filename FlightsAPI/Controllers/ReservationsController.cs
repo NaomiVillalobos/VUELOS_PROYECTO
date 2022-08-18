@@ -28,7 +28,12 @@ namespace FlightsAPI.Controllers
           {
               return NotFound();
           }
-            return await _context.Reservations.ToListAsync();
+            var lista = await _context.Reservations.ToListAsync();
+            foreach (var f in lista)
+            {
+                f.decifrar();
+            }
+            return lista;
         }
 
         // GET: api/Reservations/5

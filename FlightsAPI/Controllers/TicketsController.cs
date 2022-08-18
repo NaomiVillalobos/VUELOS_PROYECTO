@@ -28,7 +28,12 @@ namespace FlightsAPI.Controllers
           {
               return NotFound();
           }
-            return await _context.Tickets.ToListAsync();
+            var lista = await _context.Tickets.ToListAsync();
+            foreach (var f in lista)
+            {
+                f.decifrar();
+            }
+            return lista;
         }
 
         // GET: api/Tickets/5
@@ -39,13 +44,14 @@ namespace FlightsAPI.Controllers
           {
               return NotFound();
           }
+            id = Cifrado.Cifrar(id);
             var ticket = await _context.Tickets.FindAsync(id);
 
             if (ticket == null)
             {
                 return NotFound();
             }
-
+            ticket.decifrar();
             return ticket;
         }
 
