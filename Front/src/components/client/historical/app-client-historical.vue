@@ -3,7 +3,7 @@
     <v-row dense>
       <v-col cols="12">
         <app-client-historical-purchase></app-client-historical-purchase>
-        <appClientHistoricalReservation></appClientHistoricalReservation>
+        <appClientHistoricalReservation class="mt-6"></appClientHistoricalReservation>
         <v-card-text max-width="600">
         </v-card-text>
       </v-col>

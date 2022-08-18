@@ -75,6 +75,10 @@ export default {
     headers() {
       return [
         {
+            text : 'Número de reserva',
+            value : 'bookingId'
+        },
+        {
           text: "Fecha de reserva",
           value: "date",
         },

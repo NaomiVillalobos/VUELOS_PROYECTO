@@ -125,6 +125,12 @@ export default {
             path: "/admin/logs",
             selected: 7,
           },
+          {
+            icon: "mdi-view-sequential",
+            label: "Sequencias",
+            path: "/admin/sequences",
+            selected: 7,
+          },
           /*{
             icon: "mdi-bus",
             label: "Mi historial de viajes",

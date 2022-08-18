@@ -115,14 +115,14 @@ export default {
     },
     goAdmin() {
       this.$router.push({
-        path: "/client/cards",
+        path: "/admin/roles",
       });
       this.$emit("loged", "ROL-000001");
     },
 
     goClient() {
       this.$router.push({
-        path: "/client/change-password",
+        path: "/client/cards",
       });
       this.$emit("loged", "ROL-000002");
     },
