@@ -81,6 +81,12 @@ const routes = [{
   },
 
   {
+    path: '/admin/flights',
+    name: 'app-admin-flights-list',
+    component: () => import('./../components/admin/flights/app-admin-flights-list.vue')
+  },
+
+  {
     path: '/about',
     name: 'About',
     // route level code-splitting

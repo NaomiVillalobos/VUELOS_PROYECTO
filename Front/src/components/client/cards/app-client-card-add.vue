@@ -85,7 +85,7 @@ export default {
       try {
         const res = await fetch("/api/Cards", requestOptions);
         if (res.status >= 200 && res.status <= 299) {
-          this.Log.add("Cards", "I", this.form.inputs.code, this.form.inputs);
+          this.Log.add("Cards", "I", this.form.inputs.PAN, this.form.inputs);
           this.$swal.fire({
             title: "Acción realizada con éxito",
             text: "Aerolínea creado exitosamente",

@@ -95,6 +95,7 @@ namespace FlightsAPI.Controllers
           {
               return Problem("Entity set 'FlightsContext.Flights'  is null.");
           }
+            flight.cifrar();
             _context.Flights.Add(flight);
             try
             {
@@ -123,6 +124,7 @@ namespace FlightsAPI.Controllers
             {
                 return NotFound();
             }
+            id = Cifrado.Cifrar(id);
             var flight = await _context.Flights.FindAsync(id);
             if (flight == null)
             {

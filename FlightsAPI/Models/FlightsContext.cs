@@ -201,9 +201,13 @@ namespace FlightsAPI.Models
                     .HasColumnType("date")
                     .HasColumnName("dateArrive");
 
-                entity.Property(e => e.DateDep)
+                /*entity.Property(e => e.DateDep)
                     .IsRowVersion()
                     .IsConcurrencyToken()
+                    .HasColumnName("dateDep");*/
+
+                entity.Property(e => e.DateDep)
+                    .HasColumnType("date")
                     .HasColumnName("dateDep");
 
                 entity.Property(e => e.Origin)

@@ -119,17 +119,23 @@ export default {
             path: "/admin/journal",
             selected: 6,
           },
+                    {
+            icon: "mdi-airplane",
+            label: "Vuelos",
+            path: "/admin/flights",
+            selected: 7,
+          },
           {
             icon: "mdi-bug",
             label: "Log de errores",
             path: "/admin/logs",
-            selected: 7,
+            selected: 8,
           },
           {
             icon: "mdi-view-sequential",
             label: "Sequencias",
             path: "/admin/sequences",
-            selected: 7,
+            selected: 9,
           },
           /*{
             icon: "mdi-bus",
