@@ -115,7 +115,7 @@ export default {
     },
     goAdmin() {
       this.$router.push({
-        path: "/admin/roles",
+        path: "/client/cards",
       });
       this.$emit("loged", "ROL-000001");
     },

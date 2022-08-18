@@ -146,11 +146,17 @@ export default {
             path: "/client/cards",
             selected: 1,
           },
+                    {
+            icon: "mdi-shopping",
+            label: "Buscar tickets",
+            path: "/client/search",
+            selected: 2,
+          },
           {
             icon: "mdi-form-textbox-password",
             label: "Cambio de contraseña",
             path: "/admin/change-password",
-            selected: 2,
+            selected: 3,
           },
           {
             icon: "mdi-logout",
