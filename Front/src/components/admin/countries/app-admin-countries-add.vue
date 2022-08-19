@@ -55,7 +55,7 @@ export default {
         inputs: {
           description: "",
           code : "",
-          sequence : 3,
+          sequence : 2,
           
         },
       },

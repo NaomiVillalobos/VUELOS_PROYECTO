@@ -13,6 +13,12 @@
             item-key="id"
             class="elevation-1"
           >
+          <template v-slot:item.airline="{ item }">
+              {{ item.airline }}
+              <appAdminAirlinesShow
+                :code="item.airline"
+              ></appAdminAirlinesShow>
+            </template>
             <template v-slot:item.origin="{ item }">
               {{ item.origin }}
               <appAdminCountriesShow
@@ -52,11 +58,13 @@
 import appAdminCountriesShow from "./../countries/app-admin-countries-show.vue";
 import appAdminFlightsAdd from "./app-admin-flights-add.vue";
 import appAdminFlightsEdit from "./app-admin-flights-edit.vue";
+import appAdminAirlinesShow from "../airlines/app-admin-airlines-show.vue";
 export default {
   components: {
     appAdminCountriesShow,
     appAdminFlightsAdd,
-    appAdminFlightsEdit
+    appAdminFlightsEdit,
+    appAdminAirlinesShow
   },
   data() {
     return {
@@ -170,6 +178,10 @@ export default {
 
     headers() {
       return [
+        {
+          text : 'Aerolinea',
+          value : 'airline' 
+        },
         {
           text: "Origin",
           value: "origin",

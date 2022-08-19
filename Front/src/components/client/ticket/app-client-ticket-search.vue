@@ -13,6 +13,10 @@
             item-key="id"
             class="elevation-1"
           >
+            <template v-slot:item.airline="{ item }">
+              {{ item.airline }}
+              <appAdminAirlinesShow :code="item.airline"></appAdminAirlinesShow>
+            </template>
             <template v-slot:item.origin="{ item }">
               {{ item.origin }}
               <appAdminCountriesShow
@@ -35,7 +39,6 @@
               }}</template
             >
             <template v-slot:item.actions="{ item }">
-
               <app-client-ticket-buy :item="item"></app-client-ticket-buy>
             </template>
           </v-data-table>
@@ -48,19 +51,21 @@
   </v-container>
 </template>
 <script>
-import appClientTicketBuy from './app-client-ticket-buy.vue';
+import appClientTicketBuy from "./app-client-ticket-buy.vue";
 import appAdminCountriesShow from "./../../admin/countries/app-admin-countries-show.vue";
 import appClientTicketFilter from "./app-client-ticket-filter.vue";
+import appAdminAirlinesShow from "../../admin/airlines/app-admin-airlines-show.vue";
 export default {
   components: {
     appAdminCountriesShow,
     appClientTicketFilter,
-    appClientTicketBuy
+    appClientTicketBuy,
+    appAdminAirlinesShow
   },
   data() {
     return {
       currentCountry: "*ALL",
-      current : null,
+      current: null,
       loading: false,
       Airlines: [],
       dialog: false,
@@ -75,8 +80,8 @@ export default {
     this.getFlights();
   },
   methods: {
-    change(filter){
-        this.filter = filter;
+    change(filter) {
+      this.filter = filter;
     },
     async editItem(item) {
       console.log(item);
@@ -108,17 +113,23 @@ export default {
   computed: {
     body() {
       return this.Airlines.filter((airline) => {
-        if(airline.status === '2'){
-            return false;
+        if (airline.status === "2") {
+          return false;
         }
-        if(this.filter.origin !== '*ALL' && airline.origin !== this.filter.origin){
-            return false;
+        if (
+          this.filter.origin !== "*ALL" &&
+          airline.origin !== this.filter.origin
+        ) {
+          return false;
         }
-        if(this.filter.to !== '*ALL' && airline.to !== this.filter.to){
-            return false;
+        if (this.filter.to !== "*ALL" && airline.to !== this.filter.to) {
+          return false;
         }
-        if(this.filter.date !== '' && airline.dateDep.split('T')[0] !== this.filter.date){
-            return false;
+        if (
+          this.filter.date !== "" &&
+          airline.dateDep.split("T")[0] !== this.filter.date
+        ) {
+          return false;
         }
         return true;
       });
@@ -126,6 +137,10 @@ export default {
 
     headers() {
       return [
+        {
+          text: "Aerolinea",
+          value: "airline",
+        },
         {
           text: "Origin",
           value: "origin",
@@ -150,7 +165,7 @@ export default {
         {
           text: "Acciones",
           value: "actions",
-          align : 'center',
+          align: "center",
           sortable: false,
         },
       ];

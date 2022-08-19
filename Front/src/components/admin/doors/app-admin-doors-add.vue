@@ -69,7 +69,7 @@ export default {
           country: null,
           code: "",
           isClosed: 0,
-          sequence: 4,
+          sequence: 3,
         },
       },
       closed : false,
