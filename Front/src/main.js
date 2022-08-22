@@ -6,11 +6,15 @@ import VueSweetalert2 from 'vue-sweetalert2';
 import 'sweetalert2/dist/sweetalert2.min.css';
 import VueQRCodeComponent from 'vue-qrcode-component'
 import Log from './assets/js/log.js'
+import VueCompositionAPI from '@vue/composition-api'
+import VuetifyMask from "vuetify-mask";
 
 Vue.config.productionTip = false
 Vue.prototype.Log = Log;
 Vue.use(VueSweetalert2)
 Vue.component('qr-code', VueQRCodeComponent)
+Vue.use(VueCompositionAPI)
+Vue.use(VuetifyMask);
 
 new Vue({
   vuetify,

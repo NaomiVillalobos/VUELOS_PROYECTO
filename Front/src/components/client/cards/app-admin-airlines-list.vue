@@ -97,7 +97,7 @@ export default {
       } catch (e) {
         this.$swal.fire({
           title: "Ha ocurrido un error",
-          text: "Ha ocurrido un error al recuperar los aerolíneas",
+          text: "Ha ocurrido un error al recuperar las tarjetas",
           icon: "error",
         });
       } finally {

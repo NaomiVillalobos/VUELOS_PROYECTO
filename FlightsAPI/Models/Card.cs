@@ -14,6 +14,10 @@ namespace FlightsAPI.Models
         public string? UserName { get; set; }
         public string? Franchise { get; set; }
 
+        public String? Cvc { get; set; }
+
+        public String? Expiration { get; set; }
+
         public virtual User? UserNameNavigation { get; set; }
         public virtual ICollection<Purchase> Purchases { get; set; }
 
@@ -22,6 +26,8 @@ namespace FlightsAPI.Models
             this.Pan = Cifrado.Cifrar(this.Pan);
             this.UserName = Cifrado.Cifrar(this.UserName);
             this.Franchise = Cifrado.Cifrar(this.Franchise);
+            this.Cvc = Cifrado.Cifrar(this.Cvc);
+            this.Expiration = Cifrado.Cifrar(this.Expiration);
 
 
         }
@@ -30,6 +36,8 @@ namespace FlightsAPI.Models
             this.Pan = Cifrado.Decifrar(this.Pan);
             this.UserName = Cifrado.Decifrar(this.UserName);
             this.Franchise = Cifrado.Decifrar(this.Franchise);
+            this.Cvc = Cifrado.Decifrar(this.Cvc);
+            this.Expiration = Cifrado.Decifrar(this.Expiration);
 
         }
     }

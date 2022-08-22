@@ -5,13 +5,19 @@
     v-model="form.dialog"
   >
     <template v-slot:activator="{ on, attrs }">
-      <v-btn v-if="btn=='admin'" v-bind="attrs" v-on="on" color="teal" class="ma-2 white--text" fab>
-        <v-icon  dark> mdi-plus </v-icon>
-        
+      <v-btn
+        v-if="btn == 'admin'"
+        v-bind="attrs"
+        v-on="on"
+        color="teal"
+        class="ma-2 white--text"
+        fab
+      >
+        <v-icon dark> mdi-plus </v-icon>
       </v-btn>
-      <v-btn v-else color="teal" dark  v-bind="attrs" v-on="on"
-                  >Crear cuenta cliente</v-btn
-                >
+      <v-btn v-else color="teal" dark v-bind="attrs" v-on="on"
+        >Crear cuenta cliente</v-btn
+      >
     </template>
     <v-form ref="form" v-model="form.valid" lazy-validation @submit="save">
       <v-card>
@@ -25,7 +31,8 @@
             required
           >
           </v-text-field>
-          <v-select v-if="btn=='admin'"
+          <v-select
+            v-if="btn == 'admin'"
             v-model="form.inputs.role"
             :items="roles"
             item-text="description"
@@ -68,12 +75,29 @@
             required
           >
           </v-text-field>
+          <v-text-field
+            v-if="btn != 'admin' && !validCaptcha"
+            required
+            type="text"
+            label="Ingrese los números y letras del siguiente captcha"
+            v-model="inputValue"
+          />
+          <appCaptchaCode
+            v-if="btn != 'admin' && !validCaptcha"
+            :value="inputValue"
+            :count="6"
+            @isValid="checkValidCaptcha"
+          >
+            <template #icon>
+              <span style="color: blue">with Custom Text Or Icon</span>
+            </template>
+          </appCaptchaCode>
         </v-card-text>
         <v-card-actions class="justify-end">
-          <v-btn type="submit" text @click="save" outlined rounded color="teal"
+          <v-btn type="submit" :disabled="btn != 'admin' && !validCaptcha" text @click="save" outlined rounded color="teal"
             >Confirmar</v-btn
           >
-          <v-btn text @click="form.dialog = false" outlined rounded color="red"
+          <v-btn text @click="cancel" outlined rounded color="red"
             >Cancelar</v-btn
           >
         </v-card-actions>
@@ -82,20 +106,23 @@
   </v-dialog>
 </template>
 <script>
+import AppCaptchaCode from "./../../general/app-captcha-code.vue";
 export default {
-
-  props : {
-    btn : {
-      type : String,
-      default : 'admin'
+  components: { AppCaptchaCode },
+  props: {
+    btn: {
+      type: String,
+      default: "admin",
     },
-    role : {
-      type : String, 
-      default : 'ROL-000002'
-    }
+    role: {
+      type: String,
+      default: "ROL-000002",
+    },
   },
   data() {
     return {
+      inputValue: "",
+      validCaptcha : false,
       emailRules: [
         (v) => !!v || "Debe completar este campo",
         (v) =>
@@ -106,6 +133,7 @@ export default {
       form: {
         dialog: false,
         valid: true,
+        
         inputs: {
           userName: "",
           //RoleNavigation: null,
@@ -123,6 +151,17 @@ export default {
     this.getRoles();
   },
   methods: {
+
+    cancel(){
+      this.form.dialog = false;
+      this.validCaptcha = false;
+      this.inputValue = ''
+    },
+
+    checkValidCaptcha(value) {
+      this.validCaptcha = value;
+    },
+
     async getRoles() {
       let response = await fetch("/api/Roles", {
         method: "GET",
@@ -132,8 +171,8 @@ export default {
     },
 
     async saveData() {
-      if(this.btn !== 'admin'){
-        this.form.inputs.role = 'ROL-000002'
+      if (this.btn !== "admin") {
+        this.form.inputs.role = "ROL-000002";
       }
       var myHeaders = new Headers();
       myHeaders.append("Content-Type", "application/json");
@@ -145,13 +184,18 @@ export default {
         body: raw,
         redirect: "follow",
       };
-      this.$refs.form.resetValidation()
+      this.$refs.form.resetValidation();
       try {
         const res = await fetch("/api/Users", requestOptions);
         if (res.status >= 200 && res.status <= 299) {
-          this.form.inputs.password = "***************"
+          this.form.inputs.password = "***************";
           this.form.inputs.secAnswer = "**************";
-          this.Log.add('User','I',this.form.inputs.userName,this.form.inputs); 
+          this.Log.add(
+            "User",
+            "I",
+            this.form.inputs.userName,
+            this.form.inputs
+          );
           this.$swal.fire({
             title: "Acción realizada con éxito",
             text: "Usuario agregado exitosamente",
@@ -174,7 +218,7 @@ export default {
           });
         }
       } catch (e) {
-        console.error(e)
+        console.error(e);
         this.$swal.fire({
           title: "Ha ocurrido un error",
           text: "No se ha logrado almacenar la información",

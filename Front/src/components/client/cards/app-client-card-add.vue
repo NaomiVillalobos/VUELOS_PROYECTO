@@ -33,6 +33,39 @@
             required
           >
           </v-select>
+          <v-text-field
+            v-model="form.inputs.cvc"
+            type="number"
+            :counter="4"
+            :rules="[
+              (v) => !!v || 'Debe completar este campo',
+              (v) =>
+                (v.length > 0 && v.length < 4) ||
+                'Verifique el código ingresado',
+            ]"
+            label="Ingrese el cvc"
+            required
+          >
+          </v-text-field>
+          <v-text-field-simplemask
+            v-model="form.inputs.expiration"
+            type="number"
+            :counter="4"
+            :rules="[
+              (v) => !!v || 'Debe completar este campo',
+              (v) => v.length == 6 || 'Verifique la fecha de expiración',
+            ]"
+            label="Ingrese la fecha de expiración de la tarjeta (MM/YYYY)"
+            required
+
+            v-bind:options="{
+              inputMask: '##/####',
+              outputMask: '##/####',
+              empty: null,
+              applyAfter: false,
+            }"
+          >
+          </v-text-field-simplemask>
         </v-card-text>
         <v-card-actions class="justify-end">
           <v-btn type="submit" text @click="save" outlined rounded color="teal"
@@ -61,6 +94,8 @@ export default {
         inputs: {
           PAN: "",
           userName: sessionStorage.getItem("user"),
+          cvc: "",
+          expiration: "",
           franchise: "",
           sequence: 1,
         },
